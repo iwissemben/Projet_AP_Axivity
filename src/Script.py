@@ -7,3 +7,6 @@ Created on Sun Dec  4 19:09:24 2022
 import os
 
 filepath=path=os.path.normpath("../dat/Raw/")
+
+
+#test commentaire de code wissem
