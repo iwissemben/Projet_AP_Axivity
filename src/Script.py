@@ -5,11 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #<<<<<<< HEAD
-filepath=path=os.path.normpath("../dat/Raw/")
+#filepath=path=os.path.normpath("../dat/Raw/")
 
 #Importation du fichier CSV
-fname = "exemple.csv"
-filepath=os.path.join("../dat", fname)
+fname = "Fichier_test.csv"
+filepath=os.path.join("../dat/Raw/", fname)
 data=pd.read_csv(filepath, sep=",",names=["Temps_unix","Ax","Ay","Az"])
 
 #Initialisation des variables temps et accélération
