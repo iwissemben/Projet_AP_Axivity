@@ -4,6 +4,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+from datetime import datetime
 #<<<<<<< HEAD
 #filepath=path=os.path.normpath("../dat/Raw/")
 
@@ -11,6 +12,9 @@ import matplotlib.pyplot as plt
 fname = "Fichier_test.csv"
 filepath=os.path.join("../dat/Raw/", fname)
 data=pd.read_csv(filepath, sep=",",names=["Temps_unix","Ax","Ay","Az"])
+
+#conversion temps unix en human readable
+data['Temps_unix'] = pd.to_datetime(data['Temps_unix'],unit='s')
 
 #Initialisation des variables temps et accélération
 time=data.iloc[:,0]
@@ -20,6 +24,8 @@ z=data.iloc[:,3]
 
 enmo = np.sqrt(x*x + y*y + z*z) -1  # -1 car on soustrait la gravité (1g)
 
+
+#Affichage des graphes
 plt.figure(1)
 plt.figure(figsize=(9, 3))
 
@@ -43,5 +49,6 @@ plt.subplot(414)
 plt.plot(time, enmo, '-m', lw=0.5, label ="enmo")
 plt.xlabel("temps en s")
 plt.legend(['ENMO'])
+
 
 
