@@ -20,13 +20,24 @@ z=data.iloc[:,3]
 
 enmo = np.sqrt(x*x + y*y + z*z) -1  # -1 car on soustrait la gravité (1g)
 
+plt.figure(1)
+
 plt.figure(figsize=(9, 3))
+
+
+plt.subplot(311)
 plt.plot(time, x, '-b', lw=0.5, label ="x") #suivants mis en commentaires pour tester sur une donnée (ici x) sinon trop long à afficher
-plt.title("acceleration suivant x")
-plt.ylabel("amplitude de l'acceleration en m/s²")
+plt.title('accelerations en fonction du temps')
 plt.xlabel("temps en s")
+plt.legend(['ax'])
 
-#plt.plot(time, y, '*-b', lw=1, label ="y")
+plt.subplot(312)
+plt.plot(time, y, '-r', lw=0.5, label ="y")
+plt.xlabel("temps en s")
+plt.legend(['ay'])
 
-#plt.plot(time, z, '-*c', lw=1, label ="z")
+plt.subplot(313)
+plt.plot(time, z, '-c', lw=0.5, label ="z")
+plt.xlabel("temps en s")
+plt.legend(['az'])
 #>>>>>>> main
