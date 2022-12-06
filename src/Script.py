@@ -10,19 +10,16 @@ from statistics import mean
 import math
 
 #Importation du fichier CSV
-fname = "Fichier_test_2.csv"
-filepath=os.path.join("../dat/Raw/", fname)
-data=pd.read_csv(filepath, sep=",",names=["date","Ax","Ay","Az"])
+fname = "Resampled_0.1Hz_Fichier_test_2.csv"
+filepath=os.path.join("../dat/Converted/", fname)
+data=pd.read_csv(filepath, sep=",")
 
 #conversion temps unix en human readable
-data['date'] = pd.to_datetime(data['date'],unit='s')
+data['date'] = pd.to_datetime(data['date'])
 data=data.set_index('date')
 
 #initialisation parametres
 #Fs=len(data)/(time.iloc[-1]-time.iloc[0]) #Calcul de la fréquence d'echantillonage du signal
-
-data=data.resample('0.01S').mean() #resampling à 100Hz? (moyenne des valeurs sur 1/100s )
-#on a bien 100 echantillons par seconde 
 
 #Initialisation des variables temps et accélération
 time=data.index
@@ -45,7 +42,7 @@ sub_data=np.array_split(data,4) # Partage de l'ensemble des données data (table
 enmo = np.sqrt(ax*ax + ay*ay + az*az) -1  # Calcul enmo -1 car on soustrait la gravité (1g) 
 #enmo= enmo*9.81
 
-#Calcul MAD
+#Calcul MAD sur l'ensemble data
 s = 0
 n = len(data) #length of the time period
 m = np.sqrt(ax*ax + ay*ay + az*az) #vector magnitude at each time point
