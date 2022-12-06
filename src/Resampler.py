@@ -9,8 +9,8 @@ import pandas as pd
 #Script Resample 
 
 #Importation du fichier CSV
-fname = "Fichier_test_2.csv"
-filepath=os.path.join("../dat/Raw/", fname)
+fname = "Wissem_Weekend_2_12.csv"
+filepath=os.path.join("C:/Users/iWiss/Desktop/", fname)
 data=pd.read_csv(filepath, sep=",",names=["date","Ax","Ay","Az"])
 
 #conversion temps unix en human readable

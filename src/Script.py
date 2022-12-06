@@ -10,7 +10,7 @@ from statistics import mean
 import math
 
 #Importation du fichier CSV
-fname = "Resampled_0.1Hz_Fichier_test_2.csv"
+fname = "Resampled_10Hz_Wissem_Weekend_2_12.csv"
 filepath=os.path.join("../dat/Converted/", fname)
 data=pd.read_csv(filepath, sep=",")
 
@@ -32,63 +32,71 @@ t0 = time[0].second+ time[0].minute * 60+ time[0].hour * 3600
 tf = time[len(data)-1].second+ time[len(data)-1].minute * 60+ time[len(data)-1].hour * 3600
 time_tot = tf - t0
 
-sub_data=np.array_split(data,4) # Partage de l'ensemble des données data (tableau) en 4 epochs (parts) de taille identique (en seconde a savoir)
-# toto1=sp.integrate.simpson(sub_data[0]["Az"],dx=100) #Calcul de l'integrale sur la 1ere epoch Az.
-# toto2=sp.integrate.simpson(sub_data[1]["Az"],dx=100)
-# toto3=sp.integrate.simpson(sub_data[2]["Az"],dx=100)
-# toto4=sp.integrate.simpson(sub_data[3]["Az"],dx=100)
 
-#Calcul enmo 
+#Calcul du nombre d'epochs possible correspondant a des periodes de 5 sec pour partager le signal
+nb_epoch = time_tot/30
+
+#Calcul enmo sur l'ensemble du signal en chaque instant puis le converti en ENMONZ
 enmo = np.sqrt(ax*ax + ay*ay + az*az) -1  # Calcul enmo -1 car on soustrait la gravité (1g) 
-#enmo= enmo*9.81
-
-#Calcul MAD sur l'ensemble data
-s = 0
-n = len(data) #length of the time period
-m = np.sqrt(ax*ax + ay*ay + az*az) #vector magnitude at each time point
-moy_m = mean(m)
-for i in range(0,n):
-    s = abs(m - moy_m)+s
-MAD = s/n
+enmo[enmo<0]=0 #ramene les valeurs negatives à 0 (ENMONZ)
 
 
-#nombre d epochs correspondant a 5 sec 
-nb_epoch = time_tot/5.0
-#Division de l'enmo en x epochs correspondant à 5sec 
-epochs_enmo = np.array_split(enmo,nb_epoch) # Partage de la serie enmo en 12 epochs de taille identique (en seconde a savoir)
-#Division du MAD en x epochs correspondant à 5sec 
-epochs_MAD = np.array_split(MAD,nb_epoch)
-
-#Calcul de la val moyenne de enmo et MAD sur chacune des epochs
-enmo_moy = []
-enmo_sum = []
-
-for k in range(0, math.floor(nb_epoch)):
-    print("k= ",k)
-    somme = 0
-    index = 0
-    for lin in range(0, len(epochs_enmo[k]-1)): 
-            index = index+1
-            somme =epochs_enmo[k][lin] +somme
-    enmo_sum.append(somme)
-    moy = enmo_sum[k]/index    
-    enmo_moy.append(moy)
-
-MAD_moy = []
-MAD_sum = []
-for k in range(0, math.floor(nb_epoch)):
-    print("k= ",k)
-    somme = 0
-    index = 0
-    for lin in range(0, len(epochs_MAD[k]-1)): 
-            index = index+1
-            somme =epochs_MAD[k][lin] +somme
-    MAD_sum.append(somme)
-    moy = MAD_sum[k]/index    
-    MAD_moy.append(moy)
+# #Calcul MAD sur l'ensemble data
+# s = 0
+# n = len(data) #length of the time period
+# m = np.sqrt(ax*ax + ay*ay + az*az) #vector magnitude at each time point sur l'ensemble du signal
+# moy_m = mean(m) #moyenne de l'amplitude du vecteur acceleration de l'ensemble du signal
 
 
-# Application des seuils 
+# for i in range(0,n):
+#     abs(m - moy_m)
+#     s = abs(m - moy_m)+s #Vecteur S ensemble du signal
+# MAD = s/n #Valeur unique sur l'ensemble du signal
+
+data["ENMONZ"]=enmo #ajout du vecteur des enmo comme colonne au dataframe
+# data["MAD"]=MAD   #ajout du vecteur des enmo comme colonne au dataframe
+
+
+# Partage du dataframe comportant les données data en un nombre d'epochs (parts) de taille identique (de 5s)
+sub_data=np.array_split(data,nb_epoch) 
+
+
+# toto1=sp.integrate.simpson(sub_data[0]["Az"],dx=100) #Calcul de l'integrale sur la 1ere epoch Az.
+
+#Calcul des valeus moyennes de enmo et MAD sur chacune des epochs
+for i in range(len(sub_data)):
+    sub_data[i]["Moy_ENMONZ"]=mean(sub_data[i]["ENMONZ"])
+    #Lsub_data[i]["Moy_MAD"]=mean(sub_data[i]["MAD"])
+
+# Application des seuils et reconaissance de l'activité
+
+#Pour chaque epoch
+for i in range(len(sub_data)):
+    if 0 <= sub_data[i]["Moy_ENMONZ"][1] <= 0.032:
+        sub_data[i]["Activity_type"]="Sedentary_PA"
+    if 0.032 <sub_data[i]["Moy_ENMONZ"][1] <= 0.173:
+        sub_data[i]["Activity_type"]="Light_PA"
+    if 0.173 <sub_data[i]["Moy_ENMONZ"][1] <= 0.382:
+        sub_data[i]["Activity_type"]="Moderate_PA"
+    if sub_data[i]["Moy_ENMONZ"][1] > 0.382:
+        sub_data[i]["Activity_type"]="Vigourous_PA"        
+
+# Definition de la couleur de l'epoch selon son type d'activité 
+
+def coloriseepoch(epoch,plot_subplot):
+    for i in range(len(epoch)):
+        x1=epoch[i].index[0]
+        x2=epoch[i].index[-1]
+
+        graph=plot_subplot
+        if epoch[i]["Activity_type"][1] == "Sedentary_PA":
+            graph.axvspan(x1, x2, facecolor='aqua')
+        elif epoch[i]["Activity_type"][1] == "Light_PA":
+            graph.axvspan(x1, x2, facecolor='green')
+        elif epoch[i]["Activity_type"][1] == "Moderate_PA":
+            graph.axvspan(x1, x2, facecolor='orange')
+        elif epoch[i]["Activity_type"][1] == "Vigourous_PA":
+            graph.axvspan(x1, x2, facecolor='red')
 
 #calcul de la vitesse par integration de enmo
 # integrales_enmo_list=[] #Liste des valeurs d'integrales des epoch d'enmo
@@ -100,12 +108,12 @@ for k in range(0, math.floor(nb_epoch)):
 
 
 #Affichage des graphes
-plt.figure(1)
-plt.figure(figsize=(9, 3))
+plt.figure(1,figsize=(70, 3))
+
 
 plt.subplot(411)
 plt.plot(time, ax, '-b', lw=0.5, label ="x") #suivants mis en commentaires pour tester sur une donnée (ici x) sinon trop long à afficher
-plt.title('Accelerations en fonction du temps')
+plt.title('Accelerations en fonction du temps de '+ fname)
 plt.xlabel("temps en s")
 plt.legend(['ax'],loc = 'upper right')
 
@@ -120,9 +128,15 @@ plt.xlabel("temps en s")
 plt.legend(['az'],loc = 'upper right')
 
 plt.subplot(414)
-plt.plot(time, enmo, '-m', lw=0.5, label ="enmo")
-plt.xlabel("temps en s")
+plt.plot(time, enmo, 'black', lw=0.5, label ="enmo")
+plt.xlabel("temps")
 plt.legend(['ENMO'],loc = 'upper right')
+
+#Coloration des zones d'activité sur le subplot choisi
+coloriseepoch(sub_data,plt.subplot(414))
+plt.show()
+
+
 
 
 
