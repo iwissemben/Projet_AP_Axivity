@@ -3,6 +3,12 @@
 
  Ce Github repository est dédié au projet de l'UE HAH913E Activité Physique concernant le tracker d'activité Axivity AX3
 
+# Utilisation 
+Il vaut mieux avoir un jeu de donné échantillonné à 10 Hz. Si ce n'est pas le cas, des fichiers exmples sont à votre disposition. Sinon, la fonction "Resampler" peut aider. Il suffit de placer un jeu de donnée au format .csv dans /dat/Raw, mettre le nom du fichier à échantillonner dans la variable fname du fichier Resampler. Le jeu de donnée sortant se trouvera dans /dat/Converted sous le nom "Resampled_(nom d'origine du fichier)".
+
+Vous pouvez ensuite ouvrir le fichier main dans /src et mettre le nom de votre fichier échantilloner à 10 Hz dans la variable fname.
+Vous pouvez maintenant lancer main.
+
 ## Organisation du repertoire src
 
 Le repertoire src est l'un des sous dossier du reporsitory 'Projet_AP_Axivity'

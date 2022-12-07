@@ -3,6 +3,9 @@
 
  Ce Github repository est dédié au projet de l'UE HAH913E Activité Physique concernant le tracker d'activité Axivity AX3
 
+# Utilisation
+Suivez les instructions du readme dans src.
+
 
 ## Contributeurs
 
