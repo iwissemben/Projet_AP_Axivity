@@ -9,7 +9,7 @@ import pandas as pd
 #Script Resample 
 
 #Importation du fichier CSV
-fname = "Wissem_Weekend_2_12.csv"
+fname = "Wissem_Weekend_2_12 2.csv"
 filepath=os.path.join("C:/Users/iWiss/Desktop/", fname)
 data=pd.read_csv(filepath, sep=",",names=["date","Ax","Ay","Az"])
 

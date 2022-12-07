@@ -10,7 +10,7 @@ from statistics import mean
 import math
 
 #Importation du fichier CSV
-fname = "Resampled_10Hz_Wissem_Weekend_2_12.csv"
+fname = "Resampled_10Hz_Wissem_rando.csv"
 filepath=os.path.join("../dat/Converted/", fname)
 data=pd.read_csv(filepath, sep=",")
 
