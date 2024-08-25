@@ -1,6 +1,6 @@
 
 # Projet Activité Physique: Tracker Axivity
-![Hiking photo as physical activity illustration](illustrations/physical_activity_2.jpg)
+![Hiking photo as physical activity illustration](Illustrations/physical_activity_2.jpg)
 
 ## Description
 
@@ -17,7 +17,7 @@ The scientific question we aimed to investigate was how the use of an  accelerom
 Our work, informed by the publications listed in the [Bibliography](##Bibliography) led us to use the Euclidian Norm Minus One (<b>ENMO</b>) and the Mean Amplitude Deviation (<b>MAD</b>) as they are good indicators of the level of physical activity (<b>PAL</b>).
 
 
-![Results data as physical activity illustration](illustrations/results_hiking_short.png)
+![Results data as physical activity illustration](Illustrations/results_hiking_short.png)
 
 
  ### Tools
@@ -29,16 +29,16 @@ Our work, informed by the publications listed in the [Bibliography](##Bibliograp
 
 
 <p align="center">
-  <img src="illustrations/logos/axivity_logo.png" height="100" alt="Python logo illustration" />
-  <img src="illustrations/logos/python_logo.svg" height="80" alt="Axivity logo illustration" />
+  <img src="Illustrations/logos/axivity_logo.png" height="100" alt="Python logo illustration" />
+  <img src="Illustrations/logos/python_logo.svg" height="80" alt="Axivity logo illustration" />
 </p>
 
 ### Data collection
 
 <p align="center">
-  <img src="illustrations/ax3_band_1.jpg" height="300" alt="Python logo illustration" />
-  <img src="illustrations/ax3_hand_1.jpg" height="300" alt="Axivity logo illustration" />
-  <img src="illustrations/ax3_orientation.jpg" height="300" alt="Axivity logo illustration" />
+  <img src="Illustrations/ax3_band_1.jpg" height="300" alt="Python logo illustration" />
+  <img src="Illustrations/ax3_hand_1.jpg" height="300" alt="Axivity logo illustration" />
+  <img src="Illustrations/ax3_orientation.jpg" height="300" alt="Axivity logo illustration" />
 </p>
 
 The Axivity tracker was used to record physical activity directly on two of the project members.
